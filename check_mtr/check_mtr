@@ -44,9 +44,13 @@ for line in stdout.split("\n"):
 
 for k in range(0, len(mtr_output)):
 	obj = str(k)
+	try:
 	avg = sum(mtr_output[obj]['p']) / len(mtr_output[obj]['p'])
-	np.add_perfdata('hop%s' % (obj), avg)
-	np.add_message(OK, "%s average %imsec" % (mtr_output[obj]['h'], float(avg / 1000)))
+	except KeyError:
+		pass
+	else:
+		np.add_perfdata('hop%s' % (obj), avg)
+		np.add_message(OK, "%s average %imsec" % (mtr_output[obj]['h'], float(avg / 1000)))
 
 
 if np['long-output']:
